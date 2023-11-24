@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import * as authService from "../services/authService.js"
+import { createContext, useState } from "react";
 
 const AuthContext = createContext();
 
@@ -42,3 +43,6 @@ export const AuthProvider = ({
         </AuthContext.Provider>
     );
 };
+
+
+export default AuthContext;

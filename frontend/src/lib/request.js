@@ -32,9 +32,11 @@ const request = async (method, url, data) => {
 
     const result = await response.json();
 
-    if (!response.success) {
+    if (!result.success) {
         throw result.message;
     } 
+
+    console.log(result);
 
     return result.result;
 };
