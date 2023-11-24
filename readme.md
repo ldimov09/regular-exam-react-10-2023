@@ -1,0 +1,1 @@
+This is BoardGames. The site for board games.
