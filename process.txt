@@ -1,0 +1,8 @@
+Server paths:
+
+AUTH AND USERS - /api/auth/ 
+    /register email, username, password -> token
+    /login email, password -> token
+    /users [] -> all users
+    /users/:id [] -> one user
+
