@@ -27,8 +27,8 @@ function Login() {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Enter password" value={values.password} onChange={onChange} name='password'/>
                 </Form.Group>
-                <Button variant="primary" type="submit">
-                    Submit
+                <Button variant="warning" type="submit">
+                    Login
                 </Button>
             </Form>
         </div>

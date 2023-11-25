@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import * as authService from "../services/authService.js"
 import { createContext, useState } from "react";
+import useSavedState from "../hooks/useSavedState.js";
 
 const AuthContext = createContext();
 
@@ -9,7 +10,7 @@ export const AuthProvider = ({
     children,
 }) => {
     const navigate = useNavigate();
-    const [auth, setAuth] = useState({});
+    const [auth, setAuth] = useSavedState('auth', {});
 
     const loginSubmitHandler = async (values) => {
         const result = await authService.login(values.email, values.password);
@@ -18,7 +19,7 @@ export const AuthProvider = ({
     };
 
     const registerSubmitHandler = async (values) => {
-        const result = await authService.register(values.email, values.password);
+        const result = await authService.register(values.email, values.password, values.username);
         setAuth(result);
         navigate("/");
     };

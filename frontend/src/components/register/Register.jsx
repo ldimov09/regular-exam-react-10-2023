@@ -5,10 +5,11 @@ import AuthContext from '../../contexts/authContext';
 import useForm from '../../hooks/useForm';
 
 function Register() {
-    const { loginSubmitHandler } = useContext(AuthContext);
-    const { values, onChange, onSubmit } = useForm(loginSubmitHandler, {
-        'email': '',
-        'password': '',
+    const { registerSubmitHandler } = useContext(AuthContext);
+    const { values, onChange, onSubmit } = useForm(registerSubmitHandler, {
+        email: '',
+        password: '',
+        username: '',
     });
 
     return (
@@ -29,8 +30,8 @@ function Register() {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Password" name='password' onChange={onChange} value={values.password}/>
                 </Form.Group>
-                <Button variant="primary" type="submit">
-                    Submit
+                <Button variant="warning" type="submit">
+                    Register
                 </Button>
             </Form>
         </div>
