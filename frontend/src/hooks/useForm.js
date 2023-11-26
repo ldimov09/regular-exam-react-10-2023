@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react"
 
-export default function useForm(submitHandler, initialValues) {
+export default function useForm(submitHandler, initialValues, isInitialValuesLate) {
     const [values, setValues] = useState(initialValues);
+    const [validated, setValidated] = useState(false);
 
     useEffect(() => {
         setValues(initialValues);
-    }, [])
+    }, isInitialValuesLate ? [initialValues] : []);
 
     const onChange = (e) => {
         setValues(state => ({
@@ -17,12 +18,19 @@ export default function useForm(submitHandler, initialValues) {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        submitHandler(values);
+        const form = e.currentTarget;
+        if (form.checkValidity() === false) {
+            setValidated(true);
+            return;
+        }
+
+        submitHandler(values, e);
     };
 
     return {
         values,
         onChange,
         onSubmit,
+        validated
     }
 }

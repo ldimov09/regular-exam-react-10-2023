@@ -33,7 +33,7 @@ const request = async (method, url, data) => {
     const result = await response.json();
     
     if (!result.success) {
-        throw result.message;
+        throw result.error;
     } 
 
 

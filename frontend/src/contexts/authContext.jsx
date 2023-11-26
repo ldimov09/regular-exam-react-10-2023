@@ -3,25 +3,37 @@ import { useNavigate } from "react-router-dom";
 import * as authService from "../services/authService.js"
 import { createContext, useState } from "react";
 import useSavedState from "../hooks/useSavedState.js";
+import { useAlert } from "./alertContext.jsx";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({
     children,
 }) => {
+    const { addError, addMessage } = useAlert();
     const navigate = useNavigate();
     const [auth, setAuth] = useSavedState('auth', {});
 
-    const loginSubmitHandler = async (values) => {
-        const result = await authService.login(values.email, values.password);
-        setAuth(result);
-        navigate("/");
+    const loginSubmitHandler = async (values, e) => {
+        try {
+            const result = await authService.login(values.email, values.password);
+            setAuth(result);
+            addMessage('Logged in successfully');
+            navigate("/");
+        } catch (error) {
+            addError(error);
+        }
     };
 
     const registerSubmitHandler = async (values) => {
-        const result = await authService.register(values.email, values.password, values.username);
-        setAuth(result);
-        navigate("/");
+        try {
+            const result = await authService.register(values.email, values.password, values.username);
+            setAuth(result);
+            addMessage('Logged in successfully');
+            navigate("/");
+        } catch (error) {
+            addError(error);
+        }
     };
 
     const logoutHandler = () => {

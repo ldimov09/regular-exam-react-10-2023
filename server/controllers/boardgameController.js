@@ -1,5 +1,5 @@
 const { verifyToken } = require("../services/authService");
-const { getAll, create, getById } = require("../services/boardgameService");
+const { getAll, create, getById, update, deleteById } = require("../services/boardgameService");
 const boardgameController = require('express').Router();
 
 boardgameController.get('/', async (req, res) => {
@@ -40,130 +40,57 @@ boardgameController.post('/create', async (req, res) => {
     }
 })
 boardgameController.get('/:id', async (req, res) => {
+    console.log('GET /games/:id');
     try{ 
         const token = req.headers["x-authorization"];
         verifyToken(token);
         const result = await getById(req.params.id);
-        res.send({
+        res.status(200).send({
             success: true,
             result: result
         });
     } catch (err) {
-        res.send({
+        res.status(400).send({
             success: false,
             error: err.message
         })
     }
 })
-module.exports = boardgameController;
-/*
 
-*/
-/*
-jobController.put('/jobs/react', async (req, res) => {
-    try{
-        const token = req.headers["authorization"];
+boardgameController.post('/:id/edit', async (req, res) => {
+    console.log('POST /games/:id/edit');
+    try{ 
+        const token = req.headers["x-authorization"];
         verifyToken(token);
-        const result = await updateJobReaction(req.body);
-        res.send({
+        const result = await update(req.params.id, req.body);
+        res.status(200).send({
             success: true,
             result: result
-        })
+        });
     } catch (err) {
-        res.send({
+        res.status(400).send({
             success: false,
-            error: err.message,
+            error: err.message
         })
-    }
-})
+    }  
+});
 
-jobController.put('/jobs/apply', async (req, res) => {
-    try{
-        const token = req.headers["authorization"];
+boardgameController.get('/:id/delete', async (req, res) => {
+    console.log('GET /games/:id/delete');
+    try{ 
+        console.log(req.params.id);
+        const token = req.headers["x-authorization"];
         verifyToken(token);
-        
-        const result = await updateUserApplications(req.body)
-        res.send({
+        const result = await deleteById(req.params.id);
+        res.status(200).send({
             success: true,
-            result: result,
+            result: result
         });
-
-    }catch(err){
-        res.send({ 
+    } catch (err) {
+        res.status(400).send({
             success: false,
-            error: err.message,
+            error: err.message
         })
-
-    }
-
-
-
-})
-
-jobController.put('/jobs/favor', async (req, res) => {
-
-    try{
-        const token = req.headers["authorization"];
-        verifyToken(token);
-        
-        const result = await updateUserFavorite(req.body)
-        res.send({
-            success: true,
-            result: result,
-        });
-
-    }catch(err){
-        res.send({ 
-            success: false,
-            error: err.message,
-        })
-
-    }
-})
-
-jobController.delete('/jobs/:id', async (req,res) => {
-
-    try{
-        const token = req.headers["authorization"];
-        verifyToken(token);
-        
-        const id = req.params.id;
-        const result = await deleteById(id);
-
-        res.send({
-            success: true,
-            result: result,
-        });
-
-    }catch(err){
-        res.send({ 
-            success: false,
-            error: err.message,
-        })
-
-    }
-
-})
-jobController.put('/jobs/edit/:id', async (req, res) => {
-    try{
-        const token = req.headers["authorization"];
-        verifyToken(token);
-        
-        const id = req.params.id;
-        const result = await updateById(id, req.body);
-
-        res.send({
-            success: true,
-            result: result,
-        });
-
-    }catch(err){
-        res.send({ 
-            success: false,
-            error: err.message,
-        })
-
-    }
-})
-
-*/
+    }  
+});
+module.exports = boardgameController;

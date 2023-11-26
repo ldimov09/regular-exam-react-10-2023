@@ -1,40 +1,49 @@
 import { Button, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import * as boardgameService from "../../services/boardgameService";
 import useForm from "../../hooks/useForm";
+import { useEffect, useState } from "react";
 import { useAlert } from "../../contexts/alertContext";
-import { useState } from "react";
 
-export default function Create() {
+export default function Edit() {
     const { addError, addMessage } = useAlert();
+    const { id } = useParams();
     const navigate = useNavigate();
+    const [boardgame, setBoardgame] = useState({
+        name: '',
+        minage: 0,
+        gameduration: 0,
+        minplayers: 0,
+        maxplayers: 0,
+        description: '',
+        imageUrl: '',
+    });
 
-    const createBoardgameSubmitHandler = async (values, e) => {
+
+    useEffect(() => {
+        boardgameService.getOne(id)
+            .then(result => {
+                setBoardgame(result);
+            }).catch(err => addError(err));
+    }, [id]);
+
+    const editBoardgameSubmitHandler = async (values) => {
         try {
-            await boardgameService.create(values);
-            addMessage('Boardgame added successfully!')
+            await boardgameService.update(id, values);
+            addMessage('Changes saved successfully!')
             navigate("/catalog");
         } catch (err) {
             addError(err);
         }
     };
 
-    const { onChange, onSubmit, values, validated } = useForm(createBoardgameSubmitHandler, {
-        name: '',
-        minage: null,
-        gameduration: null,
-        minplayers: null,
-        maxplayers: null,
-        description: '',
-        imageUrl: '',
 
-    });
-
+    const { values, onChange, onSubmit, validated } = useForm(editBoardgameSubmitHandler, boardgame, true);
 
     return (
         <>
-            <h1>Create Boardgame</h1>
+            <h1>Edit Boardgame</h1>
             <Form className="ps-5 pe-5" onSubmit={onSubmit} noValidate validated={validated}>
                 <Form.Group className="mb-3" controlId="createFormName">
                     <Form.Label>Name</Form.Label>
@@ -88,7 +97,7 @@ export default function Create() {
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Button variant="warning" type="submit">
-                    Create
+                    Edit
                 </Button>
             </Form>
         </>
