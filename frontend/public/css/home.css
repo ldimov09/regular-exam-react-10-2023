@@ -1,0 +1,18 @@
+.mt-50p{
+    margin-top: 10%;
+    text-align: center;
+}
+
+.fs-big{
+    font-size: 7vw;
+    color: white;
+}
+
+
+.img{
+    background-image: url('../images/1234.jpg');
+    background-position: center center;
+    background-size: cover;
+    height: calc(100vh - 56.8px);
+    width: 100%;
+}

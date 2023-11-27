@@ -15,23 +15,23 @@ function Header() {
 	return (
 		<Navbar expand="lg" bg="light" data-bs-theme="light" style={{borderBottom: "1px solid #212329"}}>
 			<Container>
-				<Navbar.Brand href="#home">BoardGames</Navbar.Brand>
+				<Navbar.Brand href="#home">Game Harbor</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
-				<Navbar.Collapse id="basic-navbar-nav">
+				<Navbar.Collapse id="basic-navbar-nav" className='flex-grow-0'>
 					<Nav className="me-auto">
+						{isAuthenticated ? (<NavLink> Welcome, {username}</NavLink>) : ''}
 						<NavLink to="/" as={Link}>Home</NavLink>
 						<NavLink to="/catalog" as={Link}>Boardgames</NavLink>
 						{isAuthenticated && (
 							<>
 								<NavLink to="/logout" as={Link}>Logout</NavLink>
-								<NavLink variant="outline-success" to="/create" as={Link}>Create</NavLink>
-								<NavLink> | {username}</NavLink>
+								<Button  to="/create" className='btn btn-dark ms-2' as={Link}>Create</Button>
 							</>
 						)}
 						{!isAuthenticated && (
 							<>
 								<NavLink to="/login" as={Link}>Login</NavLink>
-								<NavLink to="/register" as={Link}>Register</NavLink>
+								<Button to="/register" className='btn btn-dark ms-2' as={Link}>Register</Button>
 							</>
 						)}
 

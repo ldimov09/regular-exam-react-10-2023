@@ -18,19 +18,17 @@ function App() {
             <AlertProvider>
                 <AuthProvider>
                     <Header />
-                    <main>
-                        <GlobalAlert className='mt-3 mb-3'/>
-                        <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/catalog" element={<Catalog />} />
-                            <Route path="/register" element={<Register />} />
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/logout" element={<Logout />} />
-                            <Route path="/create" element={<Create />} />
-                            <Route path="/catalog/:id" element={<Details />} />
-                            <Route path="/catalog/:id/edit" element={<Edit />} />
-                        </Routes>
-                    </main>
+                    <div className="alert-container"><GlobalAlert /></div>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/catalog" element={<main><Catalog /></main>} />
+                        <Route path="/register" element={<main><Register /></main>} />
+                        <Route path="/login" element={<main><Login /></main>} />
+                        <Route path="/logout" element={<main><Logout /></main>} />
+                        <Route path="/create" element={<main><Create /></main>} />
+                        <Route path="/catalog/:id" element={<main><Details /></main>} />
+                        <Route path="/catalog/:id/edit" element={<main><Edit /></main>} />
+                    </Routes>
                 </AuthProvider>
             </AlertProvider>
         </div>

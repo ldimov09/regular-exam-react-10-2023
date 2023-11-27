@@ -52,7 +52,7 @@ export default function Edit() {
                         Choose a name.
                     </Form.Control.Feedback>
                 </Form.Group>
-                <div className="d-flex justify-content-between">
+                <div className="d-flex justify-content-between flex-wrap">
                     <Form.Group className="mb-3 ">
                         <Form.Label>Min Age</Form.Label>
                         <Form.Control type="number" placeholder="Enter age" name="minage" onChange={onChange} value={values.minage} min="3" required />

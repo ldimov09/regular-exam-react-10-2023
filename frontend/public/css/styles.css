@@ -2,7 +2,14 @@
 @import url("login.css");
 @import url("game-card.css");
 @import url("details.css");
+@import url("home.css");
 
 main{
     padding: 20px 15%;
+}
+
+div.alert-container{
+    display: flex;
+    justify-content: center;
+    padding: 0px 15%;
 }
