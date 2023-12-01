@@ -18,7 +18,13 @@ async function update(id, boardgame) {
 
     existing.name = boardgame.name;
     existing.description = boardgame.description;
-    existing.salary = boardgame.salary;
+    existing.minage = boardgame.minage;
+    existing.gameduration = boardgame.gameduration;
+    existing.minplayers = boardgame.minplayers;
+    existing.maxplayers = boardgame.maxplayers;
+    if(boardgame.imageUrl) {
+        existing.imageUrl = boardgame.imageUrl;
+    }
 
     return await existing.save();
 }

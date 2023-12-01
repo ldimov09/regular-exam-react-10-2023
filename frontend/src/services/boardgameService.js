@@ -12,13 +12,13 @@ export const getAllByUserId = async (id) => {
     return res;
 }
 
-export const create = async (boardagme) => {
-    const res = await request.post(baseUrl + '/create', boardagme);
+export const create = async (formData) => {
+    const res = await request.post(baseUrl + '/create', formData, true);
     return res;
 }
 
 export const update = async (id, boardagme) => {
-    const res = await request.post(baseUrl + '/' + id + '/edit', boardagme);
+    const res = await request.post(baseUrl + '/' + id + '/edit', boardagme, true);
     return res;
 }
 

@@ -1,0 +1,16 @@
+.profile-pic{
+    background-position: center center;
+    background-size: cover;
+}
+
+.profile-image-name{
+    display: flex;
+    width: 45%;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-page{
+    margin-top: 20px;
+}

@@ -10,6 +10,7 @@ function Header() {
 	const {
 		isAuthenticated,
 		username,
+		userId
 	} = useContext(AuthContext);
 
 	return (
@@ -22,13 +23,12 @@ function Header() {
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav" className='flex-grow-0'>
 					<Nav className="me-auto">
-						{isAuthenticated ? (<NavLink> Welcome, {username}</NavLink>) : ''}
 						<NavLink to="/" as={Link}>Home</NavLink>
 						<NavLink to="/catalog" as={Link}>Boardgames</NavLink>
 						{isAuthenticated && (
 							<>
 								<NavLink to="/logout" as={Link}>Logout</NavLink>
-								<NavLink to="/mygames" as={Link}>My games</NavLink>
+								<NavLink to="/my-profile" as={Link}>Profile</NavLink>
 								<Button  to="/create" className='btn btn-dark ms-2' as={Link}>Create</Button>
 							</>
 						)}

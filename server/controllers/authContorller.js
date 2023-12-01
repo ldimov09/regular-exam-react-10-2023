@@ -1,4 +1,4 @@
-const { register, getAllUsers, getUserById, login } = require('../services/authService');
+const { register, getAllUsers, getUserById, login, getById } = require('../services/authService');
 const authContoller = require('express').Router();
 const multer = require('multer');
 const path = require('path');
@@ -72,7 +72,23 @@ authContoller.get('/users/:id', async (req, res) => {
     console.log('GET /users/:id');
     const user = await getUserById(req.params.id);
     res.send({ success: true, result: user });
-})
+});
+
+authContoller.get('/:id', async (req, res) => {
+    console.log('GET /auth/:id');
+    try{ 
+        const result = await getById(req.params.id);
+        res.status(200).send({
+            success: true,
+            result: result
+        });
+    } catch (err) {
+        res.status(400).send({
+            success: false,
+            error: err.message
+        })
+    }
+});
 
 
 module.exports = authContoller;

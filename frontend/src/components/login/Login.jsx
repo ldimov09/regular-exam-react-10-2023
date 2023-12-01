@@ -33,7 +33,7 @@ function Login() {
                         Please enter a password
                     </Form.Control.Feedback>
                 </Form.Group>
-                <Button variant="warning" type="submit">
+                <Button variant="dark" type="submit">
                     Login
                 </Button>
             </Form>

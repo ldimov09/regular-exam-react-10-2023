@@ -17,7 +17,6 @@ export default function Edit() {
         minplayers: 0,
         maxplayers: 0,
         description: '',
-        imageUrl: '',
     });
 
 
@@ -30,7 +29,15 @@ export default function Edit() {
 
     const editBoardgameSubmitHandler = async (values) => {
         try {
-            await boardgameService.update(id, values);
+            const formData = new FormData();
+            formData.append('name', values.name);
+            formData.append('minage', values.minage);
+            formData.append('gameduration', values.gameduration);
+            formData.append('minplayers', values.minplayers);
+            formData.append('maxplayers', values.maxplayers);
+            formData.append('description', values.description);
+            formData.append('gameImage', values.gameImage);
+            await boardgameService.update(id, formData);
             addMessage('Changes saved successfully!')
             navigate("/catalog");
         } catch (err) {
@@ -39,7 +46,7 @@ export default function Edit() {
     };
 
 
-    const { values, onChange, onSubmit, validated } = useForm(editBoardgameSubmitHandler, boardgame, true);
+    const { values, onChange, onSubmit, validated, onFileChange } = useForm(editBoardgameSubmitHandler, boardgame, true);
 
     return (
         <>
@@ -90,13 +97,13 @@ export default function Edit() {
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>Image Url</Form.Label>
-                    <Form.Control type="text" placeholder="Enter Url" name="imageUrl" onChange={onChange} value={values.imageUrl} required />
+                    <Form.Label>New image</Form.Label>
+                    <Form.Control type="file" placeholder="Enter Url" name="gameImage" onChange={onFileChange} />
                     <Form.Control.Feedback type="invalid">
-                        Provide a image Url.
+                        Provide a image.
                     </Form.Control.Feedback>
                 </Form.Group>
-                <Button variant="warning" type="submit">
+                <Button variant="dark" type="submit">
                     Edit
                 </Button>
             </Form>

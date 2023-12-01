@@ -17,7 +17,7 @@ export default function BoardgameListItem({
         <section>
             <Card style={{ width: '18rem' }} className='mb-4 me-4'>
                 <div className='image-wrapper-card'>
-                    <Card.Img variant="top" src={imageUrl} />
+                    <Card.Img variant="top" src={'http://localhost:3000/uploads/' + imageUrl} />
                 </div>
                 <Card.Body>
                     <Card.Title>{name}</Card.Title>
@@ -26,7 +26,7 @@ export default function BoardgameListItem({
                         <span className='d-block'> <Clock /> {gameduration} minutes </span>
                         <span className='d-block'> <PeopleFill /> {minage}+ </span>
                     </Card.Text>
-                    <Button variant="warning" as={Link} to={`/catalog/${_id}`}>Details</Button>
+                    <Button variant="dark" as={Link} to={`/catalog/${_id}`}>Details</Button>
                 </Card.Body>
             </Card>
         </section>

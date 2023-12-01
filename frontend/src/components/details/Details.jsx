@@ -25,7 +25,7 @@ export default function Details() {
         "maxplayers": 0,
         "gameduration": 0,
         "description": "",
-        "imageUrl": "",
+        "imageUrl": "no-image.png",
         "comments": []
     });
     const { id } = useParams();
@@ -91,7 +91,7 @@ export default function Details() {
                 <div className="left me-5">
                     <Button as={Link} to="/catalog" variant="secondary" className="mb-3"><CaretLeftFill /> Back</Button>
                     <div className="image-wrapper">
-                        <img src={boardgame.imageUrl} />
+                        <img src={'http://localhost:3000/uploads/' + boardgame.imageUrl} />
                     </div>
                     {user.userId === boardgame.owner ? <div className="d-flex justify-content-around mb-3 mt-2">
                         <Button variant="warning" to={'/catalog/' + id + '/edit'} as={Link}><Pencil className="me-2" />Edit</Button>

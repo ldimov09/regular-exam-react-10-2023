@@ -68,11 +68,16 @@ function verifyToken(token) {
     return jwt.verify(token, JST_SECRET);
 }
 
+async function getById(id) {
+    return User.findById(id).lean();
+}
+
 
 module.exports = {
     register: register,
     getAllUsers: getAllUsers,
     getUserById: getUserById,
     login: login,
-    verifyToken:verifyToken
+    verifyToken:verifyToken,
+    getById: getById
 }

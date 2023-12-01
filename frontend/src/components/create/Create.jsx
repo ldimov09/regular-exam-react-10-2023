@@ -12,7 +12,15 @@ export default function Create() {
 
     const createBoardgameSubmitHandler = async (values, e) => {
         try {
-            await boardgameService.create(values);
+            const formData = new FormData();
+            formData.append('name', values.name);
+            formData.append('minage', values.minage);
+            formData.append('gameduration', values.gameduration);
+            formData.append('minplayers', values.minplayers);
+            formData.append('maxplayers', values.maxplayers);
+            formData.append('description', values.description);
+            formData.append('gameImage', values.gameImage);
+            await boardgameService.create(formData);
             addMessage('Boardgame added successfully!')
             navigate("/catalog");
         } catch (err) {
@@ -20,14 +28,14 @@ export default function Create() {
         }
     };
 
-    const { onChange, onSubmit, values, validated } = useForm(createBoardgameSubmitHandler, {
+    const { onChange, onSubmit, values, validated, onFileChange } = useForm(createBoardgameSubmitHandler, {
         name: '',
         minage: 3,
         gameduration: 5,
         minplayers: 2,
         maxplayers: 2,
         description: '',
-        imageUrl: '',
+        gameImage: '',
     });
 
 
@@ -80,13 +88,13 @@ export default function Create() {
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>Image Url</Form.Label>
-                    <Form.Control type="text" placeholder="Enter Url" name="imageUrl" onChange={onChange} value={values.imageUrl} required />
+                    <Form.Label>Image</Form.Label>
+                    <Form.Control type="file" placeholder="Enter Url" name="gameImage" onChange={onFileChange}  required />
                     <Form.Control.Feedback type="invalid">
-                        Provide a image Url.
+                        Provide a image.
                     </Form.Control.Feedback>
                 </Form.Group>
-                <Button variant="warning" type="submit">
+                <Button variant="dark" type="submit">
                     Create
                 </Button>
             </Form>

@@ -27,6 +27,10 @@ export const AuthProvider = ({
 
     const registerSubmitHandler = async (values) => {
         try {
+            if(values.password !== values.repeatPassword) {
+                throw new Error('Passwords must match!')
+            }
+
             const formData = new FormData();
 
             formData.append('email', values.email);
