@@ -1,5 +1,5 @@
 const { verifyToken } = require("../services/authService");
-const { getAll, create, getById, update, deleteById } = require("../services/boardgameService");
+const { getAll, create, getById, update, deleteById, getGamesByUserId } = require("../services/boardgameService");
 const boardgameController = require('express').Router();
 
 boardgameController.get('/', async (req, res) => {
@@ -18,8 +18,26 @@ boardgameController.get('/', async (req, res) => {
     }
 })
 
+boardgameController.get('/user/:id', async (req, res) => {
+    console.log('GET /games/user/:id');
+    try{ 
+        const token = req.headers["x-authorization"];
+        const user = verifyToken(token)
+        const result = await getGamesByUserId(req.params.id);
+        res.status(200).send({
+            success: true,
+            result: result
+        });
+    } catch (err) {
+        res.status(400).send({
+            success: false,
+            error: err.message
+        })
+    }
+})
+
 boardgameController.post('/create', async (req, res) => {
-    console.log('GET /games/create');
+    console.log('POST /games/create');
     try {
         const token = req.headers["x-authorization"];
         const user = verifyToken(token)

@@ -1,4 +1,5 @@
 const Boardgames = require("../models/boardgames");
+const Comments = require("../models/comments");
 
 async function getAll() {
     return await Boardgames.find({}).lean();
@@ -23,16 +24,25 @@ async function update(id, boardgame) {
 }
 
 async function getById(id) {
-    return await Boardgames.findById(id).lean();
+    const boardgame = await Boardgames.findById(id).lean();
+    boardgame.comments = await Comments.find({ boardgameId: id}).lean();
+    return boardgame;
 }
 
 async function deleteById(id) {
-    return await Boardgames.findOneAndDelete({ _id: id });
+    await Boardgames.findOneAndDelete({ _id: id });
+    return await Comments.deleteMany({ boardgameId: id});
+}
+
+async function getGamesByUserId(id) {
+    return await Boardgames.find({ owner: id }).lean();
 }
 module.exports = {
-    getAll,
-    getById,
     create,
     update,
-    deleteById
+    getAll,
+    getById,
+    deleteById,
+    getGamesByUserId: getGamesByUserId
 }
+

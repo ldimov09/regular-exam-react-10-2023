@@ -8,6 +8,7 @@ const boardgameSchema = new Schema({
     maxplayers: { type: Number, required: true },
     gameduration: { type: Number, required: true },
     description: { type: String, required: true },
+    comments: [{ type: {}, required: true}],
     imageUrl: { type: String },
 });
 

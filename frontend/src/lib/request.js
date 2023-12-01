@@ -1,11 +1,11 @@
-const buildOptions = (data) => {
+const buildOptions = (data, isDataFormData) => {
     const options = {};
 
     if (data) {
-        options.body = JSON.stringify(data);
-        options.headers = {
-            'content-type': 'application/json'
-        };
+        options.body = !isDataFormData ? JSON.stringify(data) : data;
+        options.headers = !isDataFormData ? {
+            'Content-Type': 'application/json',
+        } : {};
     }
 
     const token = JSON.parse(localStorage.getItem('auth')).token;
@@ -20,9 +20,9 @@ const buildOptions = (data) => {
     return options;
 };
 
-const request = async (method, url, data) => {
+const request = async (method, url, data, isDataFormData) => {
     const response = await fetch(url, {
-        ...buildOptions(data),
+        ...buildOptions(data, isDataFormData),
         method,
     });
 

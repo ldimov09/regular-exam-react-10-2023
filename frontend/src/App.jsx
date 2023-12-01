@@ -11,6 +11,7 @@ import Details from "./components/details/Details"
 import Edit from "./components/edit/Edit"
 import GlobalAlert from "./components/alert/Alert"
 import { AlertProvider } from "./contexts/alertContext"
+import MyCatalog from "./components/my-catalog/MyCatalog"
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/catalog" element={<main><Catalog /></main>} />
+                        <Route path="/mygames" element={<main><MyCatalog /></main>} />
                         <Route path="/register" element={<main><Register /></main>} />
                         <Route path="/login" element={<main><Login /></main>} />
                         <Route path="/logout" element={<main><Logout /></main>} />

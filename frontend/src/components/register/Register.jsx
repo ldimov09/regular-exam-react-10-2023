@@ -7,10 +7,11 @@ import { InputGroup } from 'react-bootstrap';
 
 function Register() {
     const { registerSubmitHandler } = useContext(AuthContext);
-    const { values, onChange, onSubmit, validated } = useForm(registerSubmitHandler, {
+    const { values, onChange, onSubmit, validated, onFileChange } = useForm(registerSubmitHandler, {
         email: '',
         password: '',
         username: '',
+        profileimage: null,
     });
 
     return (
@@ -18,16 +19,13 @@ function Register() {
 
             <h1 className='mb-3 mt-3'>Register</h1>
 
-            <Form onSubmit={onSubmit} noValidate validated={validated}>
+            <Form onSubmit={onSubmit} noValidate validated={validated} encType='multipart/form-data'>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Username</Form.Label>
-                    <InputGroup>
-                        <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
-                        <Form.Control type="text" placeholder="Username" name='username' onChange={onChange} value={values.username} required pattern='^(?!.* ).*$' />
-                        <Form.Control.Feedback type="invalid">
-                            Please choose a valid username (no spases).
-                        </Form.Control.Feedback>
-                    </InputGroup>
+                    <Form.Control type="text" placeholder="Username" name='username' onChange={onChange} value={values.username} required pattern='^(?!.* ).*$' />
+                    <Form.Control.Feedback type="invalid">
+                        Please choose a valid username (no spases).
+                    </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
@@ -41,6 +39,13 @@ function Register() {
                     <Form.Control type="password" placeholder="Password" name='password' onChange={onChange} value={values.password} required />
                     <Form.Control.Feedback type="invalid">
                         Please choose a password and remember it!
+                    </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group controlId="formFile" className="mb-3">
+                    <Form.Label>Profile picture</Form.Label>
+                    <Form.Control type="file" name='profileimage' accept='.png, .jpg, .jpeg' onChange={onFileChange} />
+                    <Form.Control.Feedback type="invalid">
+                        Please choose a profile picture.
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Button variant="warning" type="submit">

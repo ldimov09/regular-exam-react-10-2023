@@ -1,22 +1,40 @@
 const { register, getAllUsers, getUserById, login } = require('../services/authService');
 const authContoller = require('express').Router();
+const multer = require('multer');
+const path = require('path');
 
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
 
-authContoller.post('/register', async function (req, res) {
+const upload = multer({ storage: storage });
+
+authContoller.post('/register', upload.single('profileimage'), async function (req, res) {
     console.log('POST /register');
-    try{
-        const body = req.body;
-        const user = await register(body.email, body.username, body.password);
+    try {
+        const payload = {
+            email: req.body.email,
+            username: req.body.username,
+            password: req.body.password,
+            profileimage: req.file.filename
+        }
+        const user = await register(payload);
         res.send(JSON.stringify({
             result: user,
             success: true,
         }));
     } catch (err) {
+        console.log(err.message);
         res.send(JSON.stringify({
             success: false,
             error: err.message,
-        })); 
-    } 
+        }));
+    }
 });
 
 authContoller.get('/users', async (req, res) => {
@@ -34,14 +52,14 @@ authContoller.post('/login', async (req, res) => {
         email: req.body.email,
         password: req.body.password,
     }
-    try{
+    try {
         const user = await login(loginUser);
         res.send({
             success: true,
             result: user,
         })
 
-    }catch(err) {
+    } catch (err) {
         res.send({
             success: false,
             error: err.message
@@ -53,7 +71,7 @@ authContoller.post('/login', async (req, res) => {
 authContoller.get('/users/:id', async (req, res) => {
     console.log('GET /users/:id');
     const user = await getUserById(req.params.id);
-    res.send({success: true, result: user});
+    res.send({ success: true, result: user });
 })
 
 

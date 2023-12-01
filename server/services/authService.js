@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 const JST_SECRET = '0WIMu2TA}u(De1/Ga{wneQl`1*m:bX5BIiVVG}^l%G=8z!x~X#QwbhExLbF?ZQMlB?7A_0xOGhhbqn}uwO,CMf%ilJ/F';
 
-async function register(email, username, password) {
+async function register({email, username, password, profileimage}) {
     const existingEmail = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
     if (existingEmail) {
         throw new Error('Email Taken!');
@@ -17,7 +17,8 @@ async function register(email, username, password) {
     const user = await User.create({
         email,
         hashedPassword,
-        username
+        username,
+        profileimage
     });
 
     const result = createSession(user);
@@ -25,11 +26,12 @@ async function register(email, username, password) {
     return result;
 }
 
-async function createSession({ _id, email, username }) {
+async function createSession({ _id, email, username, profileimage }) {
     const payload = {
         _id,
         email, 
-        username
+        username,
+        profileimage
     }
 
     const token = jwt.sign(payload, JST_SECRET);

@@ -13,6 +13,6 @@
     background-image: url('../images/1234.jpg');
     background-position: center center;
     background-size: cover;
-    height: calc(100vh - 56.8px);
+    height: calc(100vh - 62.5px);
     width: 100%;
 }

@@ -3,6 +3,7 @@
 @import url("game-card.css");
 @import url("details.css");
 @import url("home.css");
+@import url("my-catalog.css");
 
 main{
     padding: 20px 15%;

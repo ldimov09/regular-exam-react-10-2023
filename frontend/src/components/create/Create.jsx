@@ -22,13 +22,12 @@ export default function Create() {
 
     const { onChange, onSubmit, values, validated } = useForm(createBoardgameSubmitHandler, {
         name: '',
-        minage: null,
-        gameduration: null,
-        minplayers: null,
-        maxplayers: null,
+        minage: 3,
+        gameduration: 5,
+        minplayers: 2,
+        maxplayers: 2,
         description: '',
         imageUrl: '',
-
     });
 
 

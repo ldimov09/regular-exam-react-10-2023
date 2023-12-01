@@ -6,29 +6,79 @@ import AuthContext from '../../contexts/authContext';
 import Button from 'react-bootstrap/Button';
 
 import * as boardgameService from "../../services/boardgameService"
-import { Modal } from "react-bootstrap";
+import { Card, Form, Modal } from "react-bootstrap";
 import { useAlert } from "../../contexts/alertContext";
+import useForm from "../../hooks/useForm";
+import formatDateTime from "../../utils/formatDateTime";
+import Comment from "./comments/Comment";
 
 export default function Details() {
-    const { addError } = useAlert();
+    const { addError, addMessage } = useAlert();
     const user = useContext(AuthContext)
     const navigate = useNavigate()
-    const [boardgame, setBoardgamee] = useState([]);
+    const [boardgame, setBoardgame] = useState({
+        "_id": "",
+        "owner": "",
+        "name": "",
+        "minage": 0,
+        "minplayers": 0,
+        "maxplayers": 0,
+        "gameduration": 0,
+        "description": "",
+        "imageUrl": "",
+        "comments": []
+    });
     const { id } = useParams();
 
-    const [show, setShow] = useState(false);
+    //comments
+    const commentSubmitHandler = async (values) => {
+        try {
+            const comment = await boardgameService.comment(id, values);
+            addMessage('Comment added successfully!');
+            setBoardgame(current => ({
+                ...current,
+                comments: [...current.comments, comment]
+            }))
+        } catch (err) {
+            addError(err);
+        }
+    }
 
+    const { values, onChange, onSubmit, validated } = useForm(commentSubmitHandler, {
+        content: '',
+    });
+
+
+    const commentDeleteHandler = async (id) => {
+        try{
+            await boardgameService.destroyComment(id);
+            addMessage('Comment deleted successfully!');
+            setBoardgame(current => ({
+                ...current,
+                comments: current.comments.filter(el => el._id != id)
+            }))
+        }catch(err){
+            addError(err);
+        }
+    }
+
+    // Bootstrap modal
+    const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    //Get boardgame
     useEffect(() => {
         boardgameService.getOne(id)
-            .then(result => setBoardgamee(result))
+            .then(result => {
+                setBoardgame(result);
+            })
             .catch(err => {
                 addError(err);
             });
     }, []);
 
+    //Delete handler
     const deleteBodardgameHandler = () => {
         boardgameService.destroy(id)
             .then(result => navigate('/catalog'))
@@ -58,6 +108,25 @@ export default function Details() {
                     <p className="text-justify">{boardgame.description}</p>
                 </div>
             </section>
+
+            <h2 className="ms-5">Comment Section</h2>
+            <section className="comment-section ms-3 mb-3 pt-3" >
+                <Form className="mb-3" onSubmit={onSubmit} validated={validated} noValidate>
+                    <Form.Group className="mb-3">
+                        <Form.Control as="textarea" rows={3} placeholder="Place your comment.... " name="content" onChange={onChange} value={values['content']} required />
+                        <Form.Control.Feedback type="invalid">
+                            Please fill out this field.
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <Button variant="dark" type="submit">
+                        Comment
+                    </Button>
+                </Form>
+                {boardgame.comments.length === 0 ? (<i><h3>No comments yet. Be the first one!</h3></i>) : ''}
+                {boardgame.comments.map(comment => (
+                    <Comment comment={comment} commentDeleteHandler={commentDeleteHandler} userId={user.userId} key={comment._id}/>
+                ))}
+            </section >
 
 
             <Modal show={show} onHide={handleClose}>
