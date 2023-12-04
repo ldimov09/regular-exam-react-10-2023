@@ -42,6 +42,7 @@ export default function Profile() {
             <div className='profile-image-name'>
                 <ProfilePic userProfilePic={user.profileimage} size={100} />
                 <h1 className='ms-3'>{user.username}</h1>
+                <Link className='fs-4 text-dark text-decoration-none ms-3 mb-2' to='/my-profile/edit'><Pencil /></Link>
             </div>
 
             <h2 className='mt-3 mb-5 text-center'>Boardgames added by you</h2>

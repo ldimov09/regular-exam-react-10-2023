@@ -5,10 +5,12 @@ import { useAlert } from '../../contexts/alertContext.jsx';
 import AuthContext from '../../contexts/authContext.jsx';
 import ProfilePic from './profile-pic/ProfilePic.jsx';
 import * as authService from '../../services/authService.js';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function Profile() {
+    const loggedUser = useContext(AuthContext);
     const { addError } = useAlert();
+    const navigate = useNavigate();
     const [boardgames, setBoardgames] = useState(
         [{
             "_id": "",
@@ -28,6 +30,10 @@ export default function Profile() {
         profileimage: 'no-image.png'
     });
     const { id } = useParams();
+
+    if(loggedUser.userId == id) {
+        navigate('/my-profile')
+    }
 
     useEffect(() => {
         boardgameService.getAllByUserId(id)

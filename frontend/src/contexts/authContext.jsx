@@ -56,6 +56,7 @@ export const AuthProvider = ({
         loginSubmitHandler,
         registerSubmitHandler,
         logoutHandler,
+        setAuth: setAuth,
         username: auth.username || auth.email,
         email: auth.email,
         userId: auth._id,

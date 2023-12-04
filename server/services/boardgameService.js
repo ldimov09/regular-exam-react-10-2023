@@ -1,5 +1,6 @@
 const Boardgames = require("../models/boardgames");
 const Comments = require("../models/comments");
+const fs = require('fs');
 
 async function getAll() {
     return await Boardgames.find({}).lean();
@@ -23,6 +24,10 @@ async function update(id, boardgame) {
     existing.minplayers = boardgame.minplayers;
     existing.maxplayers = boardgame.maxplayers;
     if(boardgame.imageUrl) {
+        fs.unlink('uploads/' + existing.imageUrl, (err) => {
+            if(err) throw err;
+            return;
+        })
         existing.imageUrl = boardgame.imageUrl;
     }
 

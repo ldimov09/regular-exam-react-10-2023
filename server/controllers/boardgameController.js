@@ -88,6 +88,9 @@ boardgameController.get('/:id', async (req, res) => {
             result: result
         });
     } catch (err) {
+        if(err.name == 'CastError'){
+            err.message = 'Boardgame does not exist!';
+        }
         res.status(400).send({
             success: false,
             error: err.message

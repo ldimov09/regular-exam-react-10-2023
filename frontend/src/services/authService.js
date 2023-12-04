@@ -16,6 +16,14 @@ export const register = (formData) => request.post(`${baseUrl}/register`, formDa
 export const logout = () => request.get(`${baseUrl}/logout`);
 
 export const getOne = async (id) => {
-    const res = await request.get(baseUrl + '/' + id);
+    const res = await request.get(baseUrl + '/users/' + id);
     return res;
+}
+
+export const changePassword = async (id, payload) => {
+    return await request.post(baseUrl + '/users/' + id + '/changepassword', payload);
+}
+
+export const updateUser = async (id, payload) => {
+    return await request.post(baseUrl + '/users/' + id + '/edit', payload, true);
 }

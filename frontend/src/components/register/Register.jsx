@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import AuthContext from '../../contexts/authContext';
 import useForm from '../../hooks/useForm';
-import { InputGroup } from 'react-bootstrap';
 
 function Register() {
     const { registerSubmitHandler } = useContext(AuthContext);
@@ -43,15 +42,15 @@ function Register() {
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Repeat password" name='repeatPassword' onChange={onChange} value={values.repeatPassword} required />
+                    <Form.Label>Repeat Password</Form.Label>
+                    <Form.Control type="password" placeholder="Repeat password" name='repeatPassword' onChange={onChange} value={values.repeatPassword} required pattern="(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{4,16}" />
                     <Form.Control.Feedback type="invalid">
-                        Please choose a password and remember it!
+                        Choose a valid new password! Between 4 and 16 symbols. At least one letter, number and special character.
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Profile picture</Form.Label>
-                    <Form.Control type="file" name='profileimage' accept='.png, .jpg, .jpeg' onChange={onFileChange} />
+                    <Form.Control type="file" name='profileimage' accept='.png, .jpg, .jpeg' onChange={onFileChange} required />
                     <Form.Control.Feedback type="invalid">
                         Please choose a profile picture.
                     </Form.Control.Feedback>

@@ -1,4 +1,4 @@
-const { register, getAllUsers, getUserById, login, getById } = require('../services/authService');
+const { register, getAllUsers, login, getById, changePassword, updateUser } = require('../services/authService');
 const authContoller = require('express').Router();
 const multer = require('multer');
 const path = require('path');
@@ -69,12 +69,6 @@ authContoller.post('/login', async (req, res) => {
 })
 
 authContoller.get('/users/:id', async (req, res) => {
-    console.log('GET /users/:id');
-    const user = await getUserById(req.params.id);
-    res.send({ success: true, result: user });
-});
-
-authContoller.get('/:id', async (req, res) => {
     console.log('GET /auth/:id');
     try{ 
         const result = await getById(req.params.id);
@@ -90,5 +84,40 @@ authContoller.get('/:id', async (req, res) => {
     }
 });
 
+authContoller.post('/users/:id/edit', upload.single('profileimage'), async (req, res) => {
+    console.log('POST /auth/users/:id/edit');
+    try {
+        const payload = {
+            username: req.body.username,
+            profileimage: req.file? req.file.filename : null
+        }
+        const user = await updateUser(req.params.id, payload);
+        res.send(JSON.stringify({
+            result: user,
+            success: true,
+        }));
+    } catch (err) {
+        console.log(err.message);
+        res.send(JSON.stringify({
+            success: false,
+            error: err.message,
+        }));
+    }
+});
 
+authContoller.post('/users/:id/changepassword', async (req, res) => {
+    console.log('POST /auth/users/:id/changepassword');
+    try{ 
+        const result = await changePassword(req.params.id, req.body);
+        res.status(200).send({
+            success: true,
+            result: result
+        });
+    } catch (err) {
+        res.status(400).send({
+            success: false,
+            error: err.message
+        })
+    }
+});
 module.exports = authContoller;
