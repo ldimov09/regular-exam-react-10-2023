@@ -3,7 +3,7 @@ import Header from "./components/header/Header"
 import Register from "./components/register/Register"
 import Home from "./components/home/Home"
 import Login from "./components/login/Login"
-import { AuthProvider } from "./contexts/authContext"
+import AuthContext, { AuthProvider } from "./contexts/authContext"
 import Logout from "./components/logout/Logout"
 import Catalog from "./components/catalog/Catalog"
 import Create from "./components/create/Create"
@@ -13,6 +13,9 @@ import GlobalAlert from "./components/alert/Alert"
 import { AlertProvider } from "./contexts/alertContext"
 import Profile from "./components/profile/Profile"
 import MyProfile from "./components/profile/MyProfile"
+import PageNotFound from "./components/404/404"
+import { useContext } from "react"
+import ProtectedRoutes from "./components/protected-routes/ProtectedRoues"
 
 function App() {
     return (
@@ -21,18 +24,7 @@ function App() {
                 <AuthProvider>
                     <Header />
                     <div className="alert-container"><GlobalAlert /></div>
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/catalog" element={<main><Catalog /></main>} />
-                        <Route path="/my-profile" element={<main><MyProfile /></main>} />
-                        <Route path="/profile/:id" element={<main><Profile /></main>} />
-                        <Route path="/register" element={<main><Register /></main>} />
-                        <Route path="/login" element={<main><Login /></main>} />
-                        <Route path="/logout" element={<main><Logout /></main>} />
-                        <Route path="/create" element={<main><Create /></main>} />
-                        <Route path="/catalog/:id" element={<main><Details /></main>} />
-                        <Route path="/catalog/:id/edit" element={<main><Edit /></main>} />
-                    </Routes>
+                    <ProtectedRoutes />
                 </AuthProvider>
             </AlertProvider>
         </div>

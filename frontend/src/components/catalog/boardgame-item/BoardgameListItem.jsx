@@ -2,6 +2,8 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import { Clock, PersonFillAdd, PeopleFill } from 'react-bootstrap-icons';
+import { useContext } from 'react';
+import AuthContext from '../../../contexts/authContext';
 
 export default function BoardgameListItem({
     _id,
@@ -12,6 +14,8 @@ export default function BoardgameListItem({
     gameduration,
     imageUrl,
 }) {
+
+    const { isAuthenticated } = useContext(AuthContext);
 
     return (
         <section>
@@ -26,7 +30,7 @@ export default function BoardgameListItem({
                         <span className='d-block'> <Clock /> {gameduration} minutes </span>
                         <span className='d-block'> <PeopleFill /> {minage}+ </span>
                     </Card.Text>
-                    <Button variant="dark" as={Link} to={`/catalog/${_id}`}>Details</Button>
+                    {isAuthenticated ? (<Button variant="dark" as={Link} to={`/catalog/${_id}`}>Details</Button>) : ''}
                 </Card.Body>
             </Card>
         </section>
