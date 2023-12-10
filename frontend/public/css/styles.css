@@ -14,3 +14,9 @@ div.alert-container{
     justify-content: center;
     padding: 0px 15%;
 }
+
+@media (max-width: 768px){
+    main{
+        padding: 20px 5%;
+    }
+}

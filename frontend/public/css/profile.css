@@ -1,6 +1,7 @@
 .profile-pic{
     background-position: center center;
     background-size: cover;
+    margin-bottom: 20px;
 }
 
 .profile-image-name{
@@ -9,6 +10,7 @@
     margin: 0 auto;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .profile-page{
